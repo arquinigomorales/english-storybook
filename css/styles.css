@@ -7,34 +7,46 @@
   --accent: #c96f3b;
   --border: #dfd5c9;
   --shadow: 0 18px 45px rgba(71, 57, 42, 0.12);
+
+  /* ===== TRANSPARENCY CONTROLS =====
+     0.00 = completely transparent
+     1.00 = completely opaque
+  */
+  --story-panel-opacity: 0.52;
+  --popup-opacity: 0.76;
+  --backdrop-opacity: 0.10;
 }
 
 * { box-sizing: border-box; }
 
 html, body {
   margin: 0;
-  min-height: 100%;
+  width: 100%;
+  height: 100%;
   background: var(--bg);
   color: var(--ink);
 }
 
 body {
   font-family: Georgia, "Times New Roman", serif;
+  overflow: hidden;
 }
 
 button { font: inherit; }
 
 .app-shell {
   width: min(100%, 1120px);
+  height: 100dvh;
   margin: 0 auto;
-  min-height: 100dvh;
   padding: max(18px, env(safe-area-inset-top)) 20px max(18px, env(safe-area-inset-bottom));
   display: flex;
   flex-direction: column;
   gap: 16px;
+  overflow: hidden;
 }
 
 .topbar {
+  flex: none;
   display: flex;
   justify-content: space-between;
   align-items: end;
@@ -67,39 +79,53 @@ h1 {
   font-weight: 700;
 }
 
+/* The reader has a fixed available height.
+   The image is now a background layer, so its natural height
+   never makes the page taller. */
 .reader-card {
-  flex: 1;
+  position: relative;
+  flex: 1 1 auto;
   min-height: 0;
-  display: grid;
-  grid-template-columns: minmax(0, 1.18fr) minmax(320px, .82fr);
   overflow: hidden;
   border: 1px solid var(--border);
   border-radius: 30px;
-  background: var(--paper);
+  background: #eee3d5;
   box-shadow: var(--shadow);
+  isolation: isolate;
 }
 
 .image-wrap {
-  min-height: 0;
-  background: #eee3d5;
-  display: flex;
-  align-items: stretch;
-  justify-content: center;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
   overflow: hidden;
+  background: #eee3d5;
 }
 
 #page-image {
   width: 100%;
   height: 100%;
-  min-height: 0;
   object-fit: cover;
+  object-position: center;
   display: block;
 }
 
+/* Glass text panel over the illustration */
 .story-panel {
+  position: relative;
+  z-index: 2;
+  width: 42%;
+  height: 100%;
+  margin-left: auto;
   min-height: 0;
   padding: clamp(24px, 4vw, 48px);
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+
+  background: rgb(255 253 249 / var(--story-panel-opacity));
+  border-left: 1px solid rgba(255,255,255,.55);
+  backdrop-filter: blur(9px) saturate(1.06);
+  -webkit-backdrop-filter: blur(9px) saturate(1.06);
 }
 
 .page-meta {
@@ -141,6 +167,7 @@ h1 {
 }
 
 .controls {
+  flex: none;
   display: flex;
   justify-content: space-between;
   gap: 12px;
@@ -173,7 +200,7 @@ h1 {
 .vocab-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(22, 18, 15, .24);
+  background: rgb(22 18 15 / var(--backdrop-opacity));
   opacity: 0;
   transition: opacity 180ms ease;
   z-index: 20;
@@ -183,6 +210,7 @@ h1 {
   opacity: 1;
 }
 
+/* Semi-transparent glossary popup */
 .vocab-popup {
   position: fixed;
   left: 50%;
@@ -192,10 +220,13 @@ h1 {
   opacity: 0;
   pointer-events: none;
   padding: 24px;
+  border: 1px solid rgba(255,255,255,.18);
   border-radius: 24px;
-  background: #201f1d;
+  background: rgb(32 31 29 / var(--popup-opacity));
   color: white;
-  box-shadow: 0 24px 70px rgba(0,0,0,.35);
+  box-shadow: 0 24px 70px rgba(0,0,0,.30);
+  backdrop-filter: blur(13px) saturate(1.12);
+  -webkit-backdrop-filter: blur(13px) saturate(1.12);
   z-index: 30;
   transition:
     opacity 220ms ease,
@@ -214,7 +245,7 @@ h1 {
   right: 14px;
   border: 0;
   background: transparent;
-  color: #bbb;
+  color: #ddd;
   font-size: 1.8rem;
   cursor: pointer;
 }
@@ -228,14 +259,14 @@ h1 {
 
 .popup-type {
   margin: 0 0 20px;
-  color: #aaa;
+  color: #d0d0d0;
   font-family: Arial, Helvetica, sans-serif;
   font-style: italic;
 }
 
 .popup-label {
   margin: 16px 0 4px;
-  color: #b9b9b9;
+  color: #d4d4d4;
   font-family: Arial, Helvetica, sans-serif;
   font-size: .72rem;
   font-weight: 800;
@@ -252,11 +283,10 @@ h1 {
 
 @media (max-width: 760px) {
   .app-shell {
+    width: 100%;
     height: 100dvh;
-    min-height: 100dvh;
     padding: max(12px, env(safe-area-inset-top)) 12px max(12px, env(safe-area-inset-bottom));
     gap: 10px;
-    overflow: hidden;
   }
 
   .topbar {
@@ -277,38 +307,54 @@ h1 {
     font-size: .82rem;
   }
 
+  /* On mobile, illustration fills the whole card and
+     the story becomes a translucent panel over its lower area. */
   .reader-card {
-    min-height: 0;
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 42% 58%;
     border-radius: 24px;
   }
 
-  .image-wrap {
-    min-height: 0;
+  #page-image {
+    object-position: center top;
   }
 
   .story-panel {
-    min-height: 0;
-    padding: 20px 22px 24px;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+
+    width: auto;
+    height: auto;
+    max-height: 64%;
+    margin: 0;
+    padding: 18px 20px 22px;
+    border: 1px solid rgba(255,255,255,.62);
+    border-radius: 22px;
+
+    /* Slightly more transparent on mobile to preserve the illustration */
+    background: rgb(255 253 249 / calc(var(--story-panel-opacity) * 0.88));
+    box-shadow: 0 10px 30px rgba(65,49,35,.13);
+    backdrop-filter: blur(7px) saturate(1.03);
+    -webkit-backdrop-filter: blur(7px) saturate(1.03);
   }
 
   .page-meta {
     margin-bottom: 7px;
-    font-size: .72rem;
+    font-size: .70rem;
   }
 
   #page-title {
-    margin-bottom: 14px;
-    font-size: 2rem;
+    margin-bottom: 12px;
+    font-size: clamp(1.75rem, 8vw, 2.2rem);
   }
 
   .page-content {
-    font-size: 1.22rem;
-    line-height: 1.55;
+    font-size: 1.08rem;
+    line-height: 1.48;
+  }
+
+  .page-content p {
+    margin-bottom: .85em;
   }
 
   .controls {
@@ -321,18 +367,25 @@ h1 {
     border-radius: 15px;
     font-size: .92rem;
   }
+
+  .vocab-popup {
+    bottom: calc(max(12px, env(safe-area-inset-bottom)) + 54px);
+    width: calc(100% - 38px);
+    padding: 20px;
+  }
 }
 
 @media (max-height: 700px) and (max-width: 760px) {
-  .reader-card {
-    grid-template-rows: 34% 66%;
-  }
-
   .topbar h1 {
-    font-size: 1.65rem;
+    font-size: 1.55rem;
   }
 
   .story-panel {
-    padding-top: 16px;
+    max-height: 68%;
+    padding: 15px 17px 18px;
+  }
+
+  .page-content {
+    font-size: 1rem;
   }
 }
