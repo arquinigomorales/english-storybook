@@ -389,3 +389,125 @@ h1 {
     font-size: 1rem;
   }
 }
+
+
+/* ===== V1.4: Scroll affordance + mobile grabber ===== */
+
+.story-panel {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(45, 41, 38, .42) transparent;
+}
+
+.story-panel::-webkit-scrollbar {
+  width: 7px;
+}
+
+.story-panel::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.story-panel::-webkit-scrollbar-thumb {
+  background: rgba(45, 41, 38, .34);
+  border-radius: 999px;
+}
+
+/* Bottom fade that signals there is more text below */
+.story-panel::after {
+  content: "";
+  position: sticky;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  display: block;
+  height: 54px;
+  margin: -54px -4px 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 180ms ease;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 253, 249, 0),
+    rgba(255, 253, 249, .72)
+  );
+}
+
+.story-panel.has-more::after {
+  opacity: 1;
+}
+
+.more-indicator {
+  position: absolute;
+  left: 50%;
+  bottom: 12px;
+  z-index: 5;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.74);
+  border: 1px solid rgba(255,255,255,.78);
+  color: var(--ink);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: .73rem;
+  font-weight: 800;
+  letter-spacing: .03em;
+  box-shadow: 0 6px 18px rgba(42,32,24,.10);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.more-indicator.show {
+  opacity: .92;
+  transform: translateX(-50%) translateY(0);
+}
+
+.more-indicator .arrow {
+  display: inline-block;
+  animation: moreBounce 1.45s ease-in-out infinite;
+}
+
+@keyframes moreBounce {
+  0%, 100% { transform: translateY(-1px); }
+  50% { transform: translateY(3px); }
+}
+
+/* Mobile handle / grabber - purely visual */
+.story-grabber {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .story-panel {
+    padding-top: 30px;
+  }
+
+  .story-grabber {
+    display: block;
+    position: sticky;
+    top: -20px;
+    z-index: 6;
+    width: 44px;
+    height: 5px;
+    margin: -14px auto 14px;
+    border-radius: 999px;
+    background: rgba(45, 41, 38, .30);
+    box-shadow: 0 1px 0 rgba(255,255,255,.42);
+    pointer-events: none;
+  }
+
+  .more-indicator {
+    bottom: 18px;
+    font-size: .70rem;
+    padding: 6px 9px;
+  }
+
+  .story-panel::after {
+    height: 62px;
+    margin-top: -62px;
+  }
+}
