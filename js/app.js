@@ -119,6 +119,8 @@ function renderPage(index) {
   els.pageContent.scrollTop = 0;
   document.querySelector(".story-panel").scrollTop = 0;
   ensureReadingAffordances();
+  setupInteractiveGrabber();
+  if (isMobileSheet()) setSheetState(sheetState, false);
   scheduleMoreIndicatorUpdate();
   closeVocab();
 }
@@ -179,7 +181,196 @@ if (els.storyPanel) {
   els.storyPanel.addEventListener("scroll", updateMoreIndicator, { passive: true });
 }
 
-window.addEventListener("resize", scheduleMoreIndicatorUpdate);
+window.addEventListener("resize", () => {
+  if (isMobileSheet()) {
+    setSheetState(sheetState, false);
+  } else if (els.storyPanel) {
+    els.storyPanel.removeAttribute("data-sheet-state");
+    els.storyPanel.style.removeProperty("height");
+    els.storyPanel.style.removeProperty("max-height");
+  }
+  scheduleMoreIndicatorUpdate();
+});
+
+
+let sheetState = "middle";
+let dragStartY = 0;
+let dragStartHeight = 0;
+let isDraggingSheet = false;
+let sheetHintTimer;
+
+function isMobileSheet() {
+  return window.matchMedia("(max-width: 760px)").matches;
+}
+
+function getSheetHeights() {
+  const card = document.querySelector(".reader-card");
+  const cardHeight = card ? card.clientHeight : window.innerHeight;
+  return {
+    collapsed: Math.max(128, cardHeight * 0.22),
+    middle: Math.max(250, cardHeight * 0.64),
+    expanded: Math.max(320, cardHeight * 0.86)
+  };
+}
+
+function showSheetHint(label) {
+  if (!els.storyPanel || !isMobileSheet()) return;
+
+  let hint = els.storyPanel.querySelector(".sheet-state-hint");
+  if (!hint) {
+    hint = document.createElement("div");
+    hint.className = "sheet-state-hint";
+    els.storyPanel.appendChild(hint);
+  }
+
+  hint.textContent = label;
+  hint.classList.add("show");
+
+  clearTimeout(sheetHintTimer);
+  sheetHintTimer = setTimeout(() => {
+    hint.classList.remove("show");
+  }, 700);
+}
+
+function setSheetState(state, showHint = false) {
+  if (!els.storyPanel) return;
+
+  sheetState = state;
+  els.storyPanel.dataset.sheetState = state;
+  els.storyPanel.style.removeProperty("height");
+  els.storyPanel.style.removeProperty("--sheet-translate");
+
+  if (showHint) {
+    const labels = {
+      collapsed: "Image",
+      middle: "Reading",
+      expanded: "More text"
+    };
+    showSheetHint(labels[state] || "");
+  }
+
+  scheduleMoreIndicatorUpdate();
+}
+
+function closestSheetState(currentHeight) {
+  const heights = getSheetHeights();
+  return Object.entries(heights)
+    .sort((a, b) => Math.abs(a[1] - currentHeight) - Math.abs(b[1] - currentHeight))[0][0];
+}
+
+function setupInteractiveGrabber() {
+  if (!els.storyPanel) return;
+  ensureReadingAffordances();
+
+  const grabber = els.storyPanel.querySelector(".story-grabber");
+  if (!grabber || grabber.dataset.interactive === "true") return;
+
+  grabber.dataset.interactive = "true";
+  grabber.setAttribute("role", "button");
+  grabber.setAttribute("aria-label", "Drag to resize the story panel");
+  grabber.tabIndex = 0;
+
+  const startDrag = (clientY) => {
+    if (!isMobileSheet()) return;
+
+    isDraggingSheet = true;
+    dragStartY = clientY;
+    dragStartHeight = els.storyPanel.getBoundingClientRect().height;
+
+    els.storyPanel.classList.add("dragging");
+    document.body.classList.add("sheet-dragging");
+  };
+
+  const moveDrag = (clientY) => {
+    if (!isDraggingSheet || !isMobileSheet()) return;
+
+    const dy = clientY - dragStartY;
+    const heights = getSheetHeights();
+    const minHeight = heights.collapsed;
+    const maxHeight = heights.expanded;
+
+    let nextHeight = dragStartHeight - dy;
+    nextHeight = Math.max(minHeight, Math.min(maxHeight, nextHeight));
+
+    els.storyPanel.style.maxHeight = "none";
+    els.storyPanel.style.height = `${nextHeight}px`;
+  };
+
+  const endDrag = () => {
+    if (!isDraggingSheet) return;
+
+    isDraggingSheet = false;
+    els.storyPanel.classList.remove("dragging");
+    document.body.classList.remove("sheet-dragging");
+
+    const currentHeight = els.storyPanel.getBoundingClientRect().height;
+    const targetState = closestSheetState(currentHeight);
+
+    els.storyPanel.style.removeProperty("height");
+    els.storyPanel.style.removeProperty("max-height");
+
+    requestAnimationFrame(() => setSheetState(targetState, true));
+  };
+
+  grabber.addEventListener("pointerdown", (e) => {
+    if (!isMobileSheet()) return;
+    e.preventDefault();
+    grabber.setPointerCapture?.(e.pointerId);
+    startDrag(e.clientY);
+  });
+
+  grabber.addEventListener("pointermove", (e) => {
+    if (!isDraggingSheet) return;
+    e.preventDefault();
+    moveDrag(e.clientY);
+  });
+
+  grabber.addEventListener("pointerup", (e) => {
+    if (!isDraggingSheet) return;
+    e.preventDefault();
+    endDrag();
+  });
+
+  grabber.addEventListener("pointercancel", endDrag);
+
+  // Tap cycles through the 3 useful states.
+  grabber.addEventListener("click", () => {
+    if (!isMobileSheet() || isDraggingSheet) return;
+    const next = {
+      collapsed: "middle",
+      middle: "expanded",
+      expanded: "collapsed"
+    }[sheetState] || "middle";
+    setSheetState(next, true);
+  });
+
+  // Keyboard accessibility
+  grabber.addEventListener("keydown", (e) => {
+    if (!isMobileSheet()) return;
+
+    if (e.key === "ArrowUp") {
+      e.preventDefault();
+      const next = sheetState === "collapsed" ? "middle" : "expanded";
+      setSheetState(next, true);
+    }
+
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      const next = sheetState === "expanded" ? "middle" : "collapsed";
+      setSheetState(next, true);
+    }
+
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      const next = {
+        collapsed: "middle",
+        middle: "expanded",
+        expanded: "collapsed"
+      }[sheetState] || "middle";
+      setSheetState(next, true);
+    }
+  });
+}
 
 async function init() {
   const response = await fetch(BOOK_URL);
