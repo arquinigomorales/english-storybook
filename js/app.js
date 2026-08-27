@@ -2,6 +2,7 @@ const BOOK_URL = 'books/the-ugly-duckling/book.json';
 
 let book;
 let currentPage = 0;
+let popupCloseTimer;
 
 const els = {
   title: document.querySelector('#book-title'),
@@ -67,15 +68,33 @@ function openVocabulary(key) {
   const item = book.vocabulary[key];
   if (!item) return;
 
+  clearTimeout(popupCloseTimer);
+
   els.wordType.textContent = item.type;
   els.wordTitle.textContent = item.term;
   els.wordTranslation.textContent = item.translation;
   els.wordContext.textContent = item.context;
+
+  // Keep the element mounted so CSS can animate opacity/transform smoothly.
   els.backdrop.hidden = false;
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      els.backdrop.classList.add('is-open');
+      document.body.classList.add('dialog-open');
+      els.close.focus({ preventScroll: true });
+    });
+  });
 }
 
 function closeVocabulary() {
-  els.backdrop.hidden = true;
+  if (els.backdrop.hidden) return;
+
+  els.backdrop.classList.remove('is-open');
+  document.body.classList.remove('dialog-open');
+
+  popupCloseTimer = window.setTimeout(() => {
+    els.backdrop.hidden = true;
+  }, 260);
 }
 
 els.prev.addEventListener('click', () => {
