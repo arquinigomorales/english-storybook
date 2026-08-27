@@ -19,6 +19,7 @@ const els = {
   popupTranslation: document.getElementById("popup-translation"),
   popupContextWrap: document.getElementById("popup-context-wrap"),
   popupContext: document.getElementById("popup-context"),
+  storyPanel: document.querySelector(".story-panel"),
 };
 
 let book;
@@ -55,6 +56,45 @@ function renderSegments(paragraph, container) {
   container.appendChild(p);
 }
 
+
+function ensureReadingAffordances() {
+  if (!els.storyPanel) return;
+
+  if (!els.storyPanel.querySelector(".story-grabber")) {
+    const grabber = document.createElement("div");
+    grabber.className = "story-grabber";
+    grabber.setAttribute("aria-hidden", "true");
+    els.storyPanel.prepend(grabber);
+  }
+
+  if (!document.querySelector(".more-indicator")) {
+    const more = document.createElement("div");
+    more.className = "more-indicator";
+    more.setAttribute("aria-hidden", "true");
+    more.innerHTML = '<span class="arrow">↓</span><span>More</span>';
+    document.querySelector(".reader-card").appendChild(more);
+  }
+}
+
+function updateMoreIndicator() {
+  if (!els.storyPanel) return;
+  const more = document.querySelector(".more-indicator");
+  if (!more) return;
+
+  const remaining = els.storyPanel.scrollHeight - els.storyPanel.scrollTop - els.storyPanel.clientHeight;
+  const hasOverflow = els.storyPanel.scrollHeight > els.storyPanel.clientHeight + 8;
+  const hasMore = hasOverflow && remaining > 12;
+
+  els.storyPanel.classList.toggle("has-more", hasMore);
+  more.classList.toggle("show", hasMore);
+}
+
+function scheduleMoreIndicatorUpdate() {
+  requestAnimationFrame(() => {
+    requestAnimationFrame(updateMoreIndicator);
+  });
+}
+
 function renderPage(index) {
   const page = book.pages[index];
   currentPage = index;
@@ -78,6 +118,8 @@ function renderPage(index) {
 
   els.pageContent.scrollTop = 0;
   document.querySelector(".story-panel").scrollTop = 0;
+  ensureReadingAffordances();
+  scheduleMoreIndicatorUpdate();
   closeVocab();
 }
 
@@ -131,6 +173,13 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "ArrowRight" && currentPage < book.pages.length - 1) renderPage(currentPage + 1);
   if (e.key === "ArrowLeft" && currentPage > 0) renderPage(currentPage - 1);
 });
+
+
+if (els.storyPanel) {
+  els.storyPanel.addEventListener("scroll", updateMoreIndicator, { passive: true });
+}
+
+window.addEventListener("resize", scheduleMoreIndicatorUpdate);
 
 async function init() {
   const response = await fetch(BOOK_URL);
