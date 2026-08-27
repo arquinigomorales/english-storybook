@@ -511,3 +511,112 @@ h1 {
     margin-top: -62px;
   }
 }
+
+
+/* ===== V1.5: Interactive mobile grabber / bottom sheet ===== */
+
+@media (max-width: 760px) {
+  .story-panel {
+    --sheet-translate: 0px;
+    touch-action: pan-y;
+    transition:
+      transform 280ms cubic-bezier(.22,.61,.36,1),
+      max-height 280ms cubic-bezier(.22,.61,.36,1),
+      background-color 220ms ease;
+    transform: translateY(var(--sheet-translate));
+    will-change: transform;
+  }
+
+  .story-panel.dragging {
+    transition: none;
+  }
+
+  .story-grabber {
+    cursor: grab;
+    pointer-events: auto;
+    touch-action: none;
+    width: 54px;
+    height: 20px;
+    margin-top: -18px;
+    margin-bottom: 10px;
+    background: transparent;
+    box-shadow: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .story-grabber::before {
+    content: "";
+    display: block;
+    width: 42px;
+    height: 5px;
+    border-radius: 999px;
+    background: rgba(45, 41, 38, .34);
+    box-shadow: 0 1px 0 rgba(255,255,255,.45);
+    transition: width 160ms ease, background-color 160ms ease;
+  }
+
+  .story-grabber:active {
+    cursor: grabbing;
+  }
+
+  .story-panel.dragging .story-grabber::before {
+    width: 48px;
+    background: rgba(45, 41, 38, .48);
+  }
+
+  /* Default reading state */
+  .story-panel[data-sheet-state="middle"] {
+    max-height: 64%;
+  }
+
+  /* Expanded state: more text, less illustration */
+  .story-panel[data-sheet-state="expanded"] {
+    max-height: 86%;
+  }
+
+  /* Collapsed state: mostly illustration visible */
+  .story-panel[data-sheet-state="collapsed"] {
+    max-height: 22%;
+    overflow: hidden;
+  }
+
+  .story-panel[data-sheet-state="collapsed"] .page-content {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .story-panel[data-sheet-state="collapsed"] #page-title {
+    margin-bottom: 0;
+  }
+
+  .story-panel[data-sheet-state="collapsed"] .more-indicator {
+    display: none;
+  }
+
+  .story-panel[data-sheet-state="collapsed"] {
+    background: rgb(255 253 249 / calc(var(--story-panel-opacity) * 0.78));
+  }
+
+  /* Tiny helper label shown briefly after snapping */
+  .sheet-state-hint {
+    position: absolute;
+    right: 18px;
+    top: 10px;
+    z-index: 7;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: .66rem;
+    font-weight: 800;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: rgba(45, 41, 38, .55);
+    opacity: 0;
+    transition: opacity 180ms ease;
+    pointer-events: none;
+  }
+
+  .sheet-state-hint.show {
+    opacity: 1;
+  }
+}
