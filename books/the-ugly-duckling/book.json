@@ -1,62 +1,761 @@
 {
-  "slug": "the-ugly-duckling",
+  "id": "the-ugly-duckling",
   "title": "The Ugly Duckling",
   "level": "A2–B1",
+  "language": "English",
   "pages": [
     {
-      "id": "cover",
-      "heading": "The Ugly Duckling",
-      "image": "books/the-ugly-duckling/images/cover.webp",
+      "label": "Cover",
+      "title": "The Ugly Duckling",
+      "image": "cover.png",
+      "alt": "A gray duckling near a farm pond with ducks and swans in the distance.",
       "paragraphs": [
-        "A story about finding where you belong."
+        [
+          {
+            "type": "text",
+            "text": "A story about finding where you belong."
+          }
+        ]
       ]
     },
     {
-      "id": "page-01",
-      "heading": "The Nest",
-      "image": "books/the-ugly-duckling/images/page-01.webp",
+      "label": "Page 1",
+      "title": "The Nest",
+      "image": "page-01.png",
+      "alt": "Mother Duck sits on a nest full of eggs beside a pond.",
       "paragraphs": [
-        "One warm morning, Mother Duck sat <v data-key=\"patiently\">patiently</v> on her nest.",
-        "She was waiting for her eggs to <v data-key=\"hatch\">hatch</v>.",
-        "“Soon, my little ducklings will be here,” she said happily."
+        [
+          {
+            "type": "text",
+            "text": "One warm morning, Mother Duck sat "
+          },
+          {
+            "type": "vocab",
+            "text": "patiently",
+            "translation": "pacientemente",
+            "partOfSpeech": "adverb",
+            "context": "Mother Duck waited calmly for a long time."
+          },
+          {
+            "type": "text",
+            "text": " on her nest."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "She was waiting for her eggs to "
+          },
+          {
+            "type": "vocab",
+            "text": "hatch",
+            "translation": "salir del cascarón / eclosionar",
+            "partOfSpeech": "verb",
+            "context": "When a baby bird comes out of its egg."
+          },
+          {
+            "type": "text",
+            "text": "."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "“Soon, my little ducklings will be here,” she said happily."
+          }
+        ]
       ]
     },
     {
-      "id": "page-02",
-      "heading": "The Ducklings Arrive",
-      "image": "books/the-ugly-duckling/images/page-02.webp",
+      "label": "Page 2",
+      "title": "The Ducklings Arrive",
+      "image": "page-02.png",
+      "alt": "Yellow ducklings hatch from eggs while one large egg remains closed.",
       "paragraphs": [
-        "Crack! Crack! Crack!",
-        "<v data-key=\"one-by-one\">One by one</v>, the eggs began to open.",
-        "Tiny yellow ducklings came out and looked around.",
-        "But one big egg was still <v data-key=\"unbroken\">unbroken</v>."
+        [
+          {
+            "type": "text",
+            "text": "Crack! Crack! Crack!"
+          }
+        ],
+        [
+          {
+            "type": "vocab",
+            "text": "One by one",
+            "translation": "uno por uno",
+            "partOfSpeech": "expression"
+          },
+          {
+            "type": "text",
+            "text": ", the eggs began to open."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "Tiny yellow ducklings came out and looked around."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "“Quack! Quack!” they cried."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "But one big egg was still "
+          },
+          {
+            "type": "vocab",
+            "text": "unbroken",
+            "translation": "intacto / sin romper",
+            "partOfSpeech": "adjective"
+          },
+          {
+            "type": "text",
+            "text": "."
+          }
+        ]
+      ]
+    },
+    {
+      "label": "Page 3",
+      "title": "A Different Duckling",
+      "image": "page-03.png",
+      "alt": "A gray duckling stands among smaller yellow ducklings.",
+      "paragraphs": [
+        [
+          {
+            "type": "vocab",
+            "text": "At last",
+            "translation": "por fin / finalmente",
+            "partOfSpeech": "expression"
+          },
+          {
+            "type": "text",
+            "text": ", the large egg began to crack."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "Out came a big gray duckling."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "Mother Duck looked at him with surprise."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "“You are certainly "
+          },
+          {
+            "type": "vocab",
+            "text": "different",
+            "translation": "diferente",
+            "partOfSpeech": "adjective"
+          },
+          {
+            "type": "text",
+            "text": ",” she said."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "The little duckling looked at his brothers and sisters."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "They were small and yellow."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "He was bigger, gray, and a little "
+          },
+          {
+            "type": "vocab",
+            "text": "awkward",
+            "translation": "torpe / poco ágil",
+            "partOfSpeech": "adjective",
+            "context": "The duckling moved differently and did not look as graceful as the others."
+          },
+          {
+            "type": "text",
+            "text": "."
+          }
+        ]
+      ]
+    },
+    {
+      "label": "Page 4",
+      "title": "The Others Laugh",
+      "image": "page-04.png",
+      "alt": "The gray duckling looks sad while other farm animals watch him.",
+      "paragraphs": [
+        [
+          {
+            "type": "text",
+            "text": "The other animals on the farm "
+          },
+          {
+            "type": "vocab",
+            "text": "stared at",
+            "translation": "miraron fijamente",
+            "partOfSpeech": "verb"
+          },
+          {
+            "type": "text",
+            "text": " him."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "“What a strange duckling!” said one."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "“He doesn't look like us!” said another."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "Some of the ducklings began to "
+          },
+          {
+            "type": "vocab",
+            "text": "make fun of him",
+            "translation": "burlarse de él",
+            "partOfSpeech": "expression"
+          },
+          {
+            "type": "text",
+            "text": "."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "The gray duckling lowered his head."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "He felt "
+          },
+          {
+            "type": "vocab",
+            "text": "lonely",
+            "translation": "solo / sentirse solo",
+            "partOfSpeech": "adjective",
+            "context": "The duckling felt sad because nobody wanted to be with him."
+          },
+          {
+            "type": "text",
+            "text": "."
+          }
+        ]
+      ]
+    },
+    {
+      "label": "Page 5",
+      "title": "Leaving the Farm",
+      "image": "page-05.png",
+      "alt": "The gray duckling walks alone away from the farm through tall grass.",
+      "paragraphs": [
+        [
+          {
+            "type": "text",
+            "text": "Day after day, the duckling became sadder."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "“Maybe I don't "
+          },
+          {
+            "type": "vocab",
+            "text": "belong",
+            "translation": "pertenecer / encajar",
+            "partOfSpeech": "verb",
+            "context": "To feel that you are accepted in a place or group."
+          },
+          {
+            "type": "text",
+            "text": " here,” he thought."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "One morning, he decided to "
+          },
+          {
+            "type": "vocab",
+            "text": "leave the farm",
+            "translation": "irse de la granja / abandonar la granja",
+            "partOfSpeech": "expression"
+          },
+          {
+            "type": "text",
+            "text": "."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "He walked through the tall grass until the farm disappeared behind him."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "“"
+          },
+          {
+            "type": "vocab",
+            "text": "Perhaps",
+            "translation": "quizás / tal vez",
+            "partOfSpeech": "adverb"
+          },
+          {
+            "type": "text",
+            "text": " somewhere else I can find a friend.”"
+          }
+        ]
+      ]
+    },
+    {
+      "label": "Page 6",
+      "title": "A Difficult Winter",
+      "image": "page-06.png",
+      "alt": "The gray duckling stands beside a snowy frozen pond in winter.",
+      "paragraphs": [
+        [
+          {
+            "type": "text",
+            "text": "The days became colder."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "Autumn passed, and soon winter arrived."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "Snow covered the fields, and the pond began to "
+          },
+          {
+            "type": "vocab",
+            "text": "freeze",
+            "translation": "congelarse",
+            "partOfSpeech": "verb"
+          },
+          {
+            "type": "text",
+            "text": "."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "The duckling was cold, "
+          },
+          {
+            "type": "vocab",
+            "text": "hungry",
+            "translation": "hambriento",
+            "partOfSpeech": "adjective"
+          },
+          {
+            "type": "text",
+            "text": ", and tired."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "Finding food became "
+          },
+          {
+            "type": "vocab",
+            "text": "difficult",
+            "translation": "difícil",
+            "partOfSpeech": "adjective"
+          },
+          {
+            "type": "text",
+            "text": "."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "Still, he "
+          },
+          {
+            "type": "vocab",
+            "text": "kept going",
+            "translation": "siguió adelante",
+            "partOfSpeech": "expression"
+          },
+          {
+            "type": "text",
+            "text": "."
+          }
+        ]
+      ]
+    },
+    {
+      "label": "Page 7",
+      "title": "Spring Returns",
+      "image": "page-07.png",
+      "alt": "The duckling stretches larger wings among spring flowers.",
+      "paragraphs": [
+        [
+          {
+            "type": "text",
+            "text": "After the long winter, something wonderful happened."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "The snow began to "
+          },
+          {
+            "type": "vocab",
+            "text": "melt",
+            "translation": "derretirse",
+            "partOfSpeech": "verb"
+          },
+          {
+            "type": "text",
+            "text": "."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "Green grass appeared again, flowers opened, and birds filled the air with song."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "Spring had finally "
+          },
+          {
+            "type": "vocab",
+            "text": "returned",
+            "translation": "regresado / vuelto",
+            "partOfSpeech": "verb"
+          },
+          {
+            "type": "text",
+            "text": "."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "The duckling "
+          },
+          {
+            "type": "vocab",
+            "text": "stretched his wings",
+            "translation": "extendió sus alas",
+            "partOfSpeech": "expression"
+          },
+          {
+            "type": "text",
+            "text": "."
+          }
+        ],
+        [
+          {
+            "type": "vocab",
+            "text": "To his surprise",
+            "translation": "para su sorpresa",
+            "partOfSpeech": "expression"
+          },
+          {
+            "type": "text",
+            "text": ", they were much larger and stronger than before."
+          }
+        ]
+      ]
+    },
+    {
+      "label": "Page 8",
+      "title": "The Beautiful Swans",
+      "image": "page-08.png",
+      "alt": "The young gray bird watches elegant white swans on a lake.",
+      "paragraphs": [
+        [
+          {
+            "type": "text",
+            "text": "One afternoon, he saw three beautiful white birds swimming across the lake."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "They had long necks and elegant wings."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "“Those birds are so "
+          },
+          {
+            "type": "vocab",
+            "text": "graceful",
+            "translation": "elegantes / de movimientos armoniosos",
+            "partOfSpeech": "adjective"
+          },
+          {
+            "type": "text",
+            "text": ",” he thought."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "He wanted to "
+          },
+          {
+            "type": "vocab",
+            "text": "get closer",
+            "translation": "acercarse",
+            "partOfSpeech": "expression"
+          },
+          {
+            "type": "text",
+            "text": ", but he was "
+          },
+          {
+            "type": "vocab",
+            "text": "afraid",
+            "translation": "asustado / con miedo",
+            "partOfSpeech": "adjective"
+          },
+          {
+            "type": "text",
+            "text": "."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "“"
+          },
+          {
+            "type": "vocab",
+            "text": "What if…?",
+            "translation": "¿Y si...?",
+            "partOfSpeech": "expression"
+          },
+          {
+            "type": "text",
+            "text": " they laugh at me too?”"
+          }
+        ]
+      ]
+    },
+    {
+      "label": "Page 9",
+      "title": "His Reflection",
+      "image": "page-09.png",
+      "alt": "A white swan looks down at his reflection in the water.",
+      "paragraphs": [
+        [
+          {
+            "type": "text",
+            "text": "The young bird slowly walked toward the water."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "He looked down and saw his "
+          },
+          {
+            "type": "vocab",
+            "text": "reflection",
+            "translation": "reflejo",
+            "partOfSpeech": "noun"
+          },
+          {
+            "type": "text",
+            "text": "."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "But the face in the water was "
+          },
+          {
+            "type": "vocab",
+            "text": "no longer",
+            "translation": "ya no",
+            "partOfSpeech": "expression"
+          },
+          {
+            "type": "text",
+            "text": " the face of a gray duckling."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "He had "
+          },
+          {
+            "type": "vocab",
+            "text": "grown into",
+            "translation": "se había convertido al crecer en",
+            "partOfSpeech": "expression"
+          },
+          {
+            "type": "text",
+            "text": " a beautiful white swan."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "“Is that really me?” he "
+          },
+          {
+            "type": "vocab",
+            "text": "whispered",
+            "translation": "susurró",
+            "partOfSpeech": "verb"
+          },
+          {
+            "type": "text",
+            "text": "."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "For the first time, he understood why he had always been different."
+          }
+        ]
+      ]
+    },
+    {
+      "label": "Page 10",
+      "title": "Where He Belongs",
+      "image": "page-10.png",
+      "alt": "The young white swan swims happily with other swans on a sunny lake.",
+      "paragraphs": [
+        [
+          {
+            "type": "text",
+            "text": "The other swans swam toward him."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "“Come with us,” one of them said."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "For a moment, he could "
+          },
+          {
+            "type": "vocab",
+            "text": "hardly believe it",
+            "translation": "apenas podía creerlo",
+            "partOfSpeech": "expression"
+          },
+          {
+            "type": "text",
+            "text": "."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "Then he "
+          },
+          {
+            "type": "vocab",
+            "text": "joined them",
+            "translation": "se unió a ellos",
+            "partOfSpeech": "expression"
+          },
+          {
+            "type": "text",
+            "text": " and began to swim across the lake."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "He was no longer the lonely gray duckling."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "He had finally found a place where he "
+          },
+          {
+            "type": "vocab",
+            "text": "belonged",
+            "translation": "pertenecía / encajaba",
+            "partOfSpeech": "verb"
+          },
+          {
+            "type": "text",
+            "text": "."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "And "
+          },
+          {
+            "type": "vocab",
+            "text": "from that day on",
+            "translation": "desde ese día en adelante",
+            "partOfSpeech": "expression"
+          },
+          {
+            "type": "text",
+            "text": ", he never wished to be anyone but himself."
+          }
+        ]
       ]
     }
-  ],
-  "vocabulary": {
-    "patiently": {
-      "term": "patiently",
-      "type": "adverb",
-      "translation": "pacientemente",
-      "context": "Mother Duck waited calmly for a long time."
-    },
-    "hatch": {
-      "term": "hatch",
-      "type": "verb",
-      "translation": "salir del cascarón / eclosionar",
-      "context": "When a baby bird comes out of its egg."
-    },
-    "one-by-one": {
-      "term": "one by one",
-      "type": "expression",
-      "translation": "uno por uno",
-      "context": "The eggs opened individually, not all at the same time."
-    },
-    "unbroken": {
-      "term": "unbroken",
-      "type": "adjective",
-      "translation": "intacto / sin romper",
-      "context": "The large egg had not opened yet."
-    }
-  }
+  ]
 }

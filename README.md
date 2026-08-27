@@ -1,21 +1,32 @@
 # English Storybook
 
-Responsive interactive English reading project built with HTML, CSS and JavaScript.
+Responsive interactive English storybook built with HTML, CSS and JavaScript.
 
-## First story
-
-**The Ugly Duckling** — A2–B1
-
-Current prototype includes:
-- Responsive reader
-- Cover + first two story pages
-- Interactive vocabulary cards
-- JSON-based book content
-- Placeholder areas for illustrations
-- Previous/Next navigation
+## Current story
+- The Ugly Duckling
+- Level A2–B1
+- 10 story pages + cover
+- Interactive vocabulary and contextual Spanish translations
+- Responsive mobile-first layout
+- No audio in this version
 
 ## GitHub Pages
 
-Upload the project files to the root of your repository and enable **Settings → Pages → Deploy from a branch → main / root**.
+Upload the project contents to the repository root and enable:
 
-Open `index.html` through GitHub Pages. Because the app loads `book.json` with `fetch`, opening the HTML directly from your local disk may not work in some browsers.
+Settings → Pages → Deploy from a branch → main → /(root)
+
+## Structure
+
+```text
+english-storybook/
+├── index.html
+├── css/
+│   └── styles.css
+├── js/
+│   └── app.js
+└── books/
+    └── the-ugly-duckling/
+        ├── book.json
+        └── images/
+```

@@ -1,132 +1,144 @@
-const BOOK_URL = 'books/the-ugly-duckling/book.json';
+
+const BOOK_URL = "books/the-ugly-duckling/book.json";
+
+const els = {
+  bookTitle: document.getElementById("book-title"),
+  levelBadge: document.getElementById("level-badge"),
+  pageImage: document.getElementById("page-image"),
+  pageNumber: document.getElementById("page-number"),
+  pageCounter: document.getElementById("page-counter"),
+  pageTitle: document.getElementById("page-title"),
+  pageContent: document.getElementById("page-content"),
+  prevBtn: document.getElementById("prev-btn"),
+  nextBtn: document.getElementById("next-btn"),
+  popup: document.getElementById("vocab-popup"),
+  backdrop: document.getElementById("vocab-backdrop"),
+  popupClose: document.getElementById("popup-close"),
+  popupWord: document.getElementById("popup-word"),
+  popupType: document.getElementById("popup-type"),
+  popupTranslation: document.getElementById("popup-translation"),
+  popupContextWrap: document.getElementById("popup-context-wrap"),
+  popupContext: document.getElementById("popup-context"),
+};
 
 let book;
 let currentPage = 0;
-let popupCloseTimer;
+let closeTimer;
 
-const els = {
-  title: document.querySelector('#book-title'),
-  level: document.querySelector('#book-level'),
-  pageImage: document.querySelector('#page-image'),
-  imagePlaceholder: document.querySelector('#image-placeholder'),
-  pageNumber: document.querySelector('#page-number'),
-  pageHeading: document.querySelector('#page-heading'),
-  pageText: document.querySelector('#page-text'),
-  prev: document.querySelector('#prev-btn'),
-  next: document.querySelector('#next-btn'),
-  progress: document.querySelector('#progress'),
-  backdrop: document.querySelector('#word-backdrop'),
-  close: document.querySelector('#word-close'),
-  wordType: document.querySelector('#word-type'),
-  wordTitle: document.querySelector('#word-title'),
-  wordTranslation: document.querySelector('#word-translation'),
-  wordContext: document.querySelector('#word-context')
-};
+function vocabSpan(item) {
+  const span = document.createElement("span");
+  span.className = "vocab";
+  span.textContent = item.text;
+  span.tabIndex = 0;
+  span.setAttribute("role", "button");
+  span.addEventListener("click", () => openVocab(item));
+  span.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      openVocab(item);
+    }
+  });
+  return span;
+}
+
+function renderSegments(paragraph, container) {
+  const p = document.createElement("p");
+
+  paragraph.forEach(item => {
+    if (item.type === "vocab") {
+      p.appendChild(vocabSpan(item));
+    } else {
+      p.appendChild(document.createTextNode(item.text));
+    }
+  });
+
+  container.appendChild(p);
+}
+
+function renderPage(index) {
+  const page = book.pages[index];
+  currentPage = index;
+
+  els.bookTitle.textContent = book.title;
+  els.levelBadge.textContent = book.level;
+
+  els.pageImage.src = `books/the-ugly-duckling/images/${page.image}`;
+  els.pageImage.alt = page.alt || page.title;
+
+  els.pageNumber.textContent = page.label || `Page ${index}`;
+  els.pageCounter.textContent = `${index + 1} / ${book.pages.length}`;
+  els.pageTitle.textContent = page.title || "";
+  els.pageContent.innerHTML = "";
+
+  page.paragraphs.forEach(paragraph => renderSegments(paragraph, els.pageContent));
+
+  els.prevBtn.disabled = index === 0;
+  els.nextBtn.disabled = index === book.pages.length - 1;
+  els.nextBtn.textContent = index === book.pages.length - 1 ? "The End" : "Next →";
+
+  els.pageContent.scrollTop = 0;
+  document.querySelector(".story-panel").scrollTop = 0;
+  closeVocab();
+}
+
+function openVocab(item) {
+  clearTimeout(closeTimer);
+
+  els.popupWord.textContent = item.text;
+  els.popupType.textContent = item.partOfSpeech || "";
+  els.popupTranslation.textContent = item.translation || "";
+
+  if (item.context) {
+    els.popupContextWrap.hidden = false;
+    els.popupContext.textContent = item.context;
+  } else {
+    els.popupContextWrap.hidden = true;
+  }
+
+  els.backdrop.hidden = false;
+
+  requestAnimationFrame(() => {
+    els.backdrop.classList.add("show");
+    els.popup.classList.add("show");
+    els.popup.setAttribute("aria-hidden", "false");
+  });
+}
+
+function closeVocab() {
+  els.backdrop.classList.remove("show");
+  els.popup.classList.remove("show");
+  els.popup.setAttribute("aria-hidden", "true");
+
+  clearTimeout(closeTimer);
+  closeTimer = setTimeout(() => {
+    els.backdrop.hidden = true;
+  }, 240);
+}
+
+els.prevBtn.addEventListener("click", () => {
+  if (currentPage > 0) renderPage(currentPage - 1);
+});
+
+els.nextBtn.addEventListener("click", () => {
+  if (currentPage < book.pages.length - 1) renderPage(currentPage + 1);
+});
+
+els.popupClose.addEventListener("click", closeVocab);
+els.backdrop.addEventListener("click", closeVocab);
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") closeVocab();
+  if (e.key === "ArrowRight" && currentPage < book.pages.length - 1) renderPage(currentPage + 1);
+  if (e.key === "ArrowLeft" && currentPage > 0) renderPage(currentPage - 1);
+});
 
 async function init() {
   const response = await fetch(BOOK_URL);
   book = await response.json();
-
-  els.title.textContent = book.title;
-  els.level.textContent = book.level;
-  renderPage();
+  renderPage(0);
 }
 
-function renderPage() {
-  const page = book.pages[currentPage];
-  els.pageHeading.textContent = page.heading;
-  els.pageNumber.textContent = currentPage === 0 ? 'Cover' : `Page ${currentPage}`;
-  els.progress.textContent = `${currentPage + 1} / ${book.pages.length}`;
-
-  els.pageText.innerHTML = page.paragraphs.map(p => `<p>${convertVocabularyTags(p)}</p>`).join('');
-
-  els.pageImage.style.display = 'block';
-  els.imagePlaceholder.style.display = 'none';
-  els.pageImage.src = page.image;
-  els.pageImage.alt = `${book.title} — ${page.heading}`;
-
-  els.pageImage.onerror = () => {
-    els.pageImage.style.display = 'none';
-    els.imagePlaceholder.style.display = 'grid';
-    els.imagePlaceholder.textContent = `${page.heading} — illustration coming soon`;
-  };
-
-  els.prev.disabled = currentPage === 0;
-  els.next.disabled = currentPage === book.pages.length - 1;
-
-  document.querySelectorAll('.vocab').forEach(btn => {
-    btn.addEventListener('click', () => openVocabulary(btn.dataset.key));
-  });
-}
-
-function convertVocabularyTags(text) {
-  return text.replace(/<v data-key="([^"]+)">([^<]+)<\/v>/g,
-    '<button class="vocab" type="button" data-key="$1">$2</button>');
-}
-
-function openVocabulary(key) {
-  const item = book.vocabulary[key];
-  if (!item) return;
-
-  clearTimeout(popupCloseTimer);
-
-  els.wordType.textContent = item.type;
-  els.wordTitle.textContent = item.term;
-  els.wordTranslation.textContent = item.translation;
-  els.wordContext.textContent = item.context;
-
-  // Keep the element mounted so CSS can animate opacity/transform smoothly.
-  els.backdrop.hidden = false;
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      els.backdrop.classList.add('is-open');
-      document.body.classList.add('dialog-open');
-      els.close.focus({ preventScroll: true });
-    });
-  });
-}
-
-function closeVocabulary() {
-  if (els.backdrop.hidden) return;
-
-  els.backdrop.classList.remove('is-open');
-  document.body.classList.remove('dialog-open');
-
-  popupCloseTimer = window.setTimeout(() => {
-    els.backdrop.hidden = true;
-  }, 260);
-}
-
-els.prev.addEventListener('click', () => {
-  if (currentPage > 0) {
-    currentPage -= 1;
-    renderPage();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-});
-
-els.next.addEventListener('click', () => {
-  if (currentPage < book.pages.length - 1) {
-    currentPage += 1;
-    renderPage();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-});
-
-els.close.addEventListener('click', closeVocabulary);
-els.backdrop.addEventListener('click', e => {
-  if (e.target === els.backdrop) closeVocabulary();
-});
-
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closeVocabulary();
-  if (e.key === 'ArrowRight' && !els.next.disabled) els.next.click();
-  if (e.key === 'ArrowLeft' && !els.prev.disabled) els.prev.click();
-});
-
-init().catch(error => {
-  console.error(error);
-  els.title.textContent = 'English Storybook';
-  els.pageHeading.textContent = 'Could not load the book';
-  els.pageText.innerHTML = '<p>Check that the project is being served from a web server or GitHub Pages.</p>';
+init().catch(err => {
+  console.error(err);
+  els.pageContent.innerHTML = "<p>Could not load the story.</p>";
 });
