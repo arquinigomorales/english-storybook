@@ -1,0 +1,62 @@
+{
+  "slug": "the-ugly-duckling",
+  "title": "The Ugly Duckling",
+  "level": "A2–B1",
+  "pages": [
+    {
+      "id": "cover",
+      "heading": "The Ugly Duckling",
+      "image": "books/the-ugly-duckling/images/cover.webp",
+      "paragraphs": [
+        "A story about finding where you belong."
+      ]
+    },
+    {
+      "id": "page-01",
+      "heading": "The Nest",
+      "image": "books/the-ugly-duckling/images/page-01.webp",
+      "paragraphs": [
+        "One warm morning, Mother Duck sat <v data-key=\"patiently\">patiently</v> on her nest.",
+        "She was waiting for her eggs to <v data-key=\"hatch\">hatch</v>.",
+        "“Soon, my little ducklings will be here,” she said happily."
+      ]
+    },
+    {
+      "id": "page-02",
+      "heading": "The Ducklings Arrive",
+      "image": "books/the-ugly-duckling/images/page-02.webp",
+      "paragraphs": [
+        "Crack! Crack! Crack!",
+        "<v data-key=\"one-by-one\">One by one</v>, the eggs began to open.",
+        "Tiny yellow ducklings came out and looked around.",
+        "But one big egg was still <v data-key=\"unbroken\">unbroken</v>."
+      ]
+    }
+  ],
+  "vocabulary": {
+    "patiently": {
+      "term": "patiently",
+      "type": "adverb",
+      "translation": "pacientemente",
+      "context": "Mother Duck waited calmly for a long time."
+    },
+    "hatch": {
+      "term": "hatch",
+      "type": "verb",
+      "translation": "salir del cascarón / eclosionar",
+      "context": "When a baby bird comes out of its egg."
+    },
+    "one-by-one": {
+      "term": "one by one",
+      "type": "expression",
+      "translation": "uno por uno",
+      "context": "The eggs opened individually, not all at the same time."
+    },
+    "unbroken": {
+      "term": "unbroken",
+      "type": "adjective",
+      "translation": "intacto / sin romper",
+      "context": "The large egg had not opened yet."
+    }
+  }
+}

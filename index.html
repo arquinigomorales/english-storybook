@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>English Storybook</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">English Storybook</p>
+        <h1 id="book-title">Loading…</h1>
+      </div>
+      <span class="level-badge" id="book-level"></span>
+    </header>
+
+    <section class="reader-card" aria-live="polite">
+      <div class="page-visual">
+        <img id="page-image" alt="Story illustration" />
+        <div class="image-placeholder" id="image-placeholder">Illustration coming soon</div>
+      </div>
+
+      <article class="page-copy">
+        <p class="page-number" id="page-number"></p>
+        <h2 id="page-heading"></h2>
+        <div id="page-text" class="story-text"></div>
+      </article>
+    </section>
+
+    <nav class="reader-nav" aria-label="Story navigation">
+      <button id="prev-btn" type="button">← Previous</button>
+      <div id="progress" class="progress-text"></div>
+      <button id="next-btn" type="button">Next →</button>
+    </nav>
+  </main>
+
+  <div class="word-card-backdrop" id="word-backdrop" hidden>
+    <section class="word-card" role="dialog" aria-modal="true" aria-labelledby="word-title">
+      <button class="word-close" id="word-close" type="button" aria-label="Close">×</button>
+      <p class="word-type" id="word-type"></p>
+      <h3 id="word-title"></h3>
+      <p class="translation" id="word-translation"></p>
+      <p class="context-label">In this story</p>
+      <p id="word-context"></p>
+    </section>
+  </div>
+
+  <script src="js/app.js" defer></script>
+</body>
+</html>
